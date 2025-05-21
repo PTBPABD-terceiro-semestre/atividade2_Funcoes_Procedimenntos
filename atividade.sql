@@ -15,10 +15,19 @@ begin
     total int
   );
 
-declare @i int;
+declare @i int = 0;
 while @i < @intervaloN
 begin
-  declare valorMin numeric(10,2) = @salarioMin + (@i * tamIntervalo);
-  declare valorMax numeric(10,2) = @salarioMax + (@i * tamIntervalo);
-  
+  declare @valorMin numeric(10,2);
+  set @valorMin = @salarioMin + (@i * @tamIntervalo);
+  declare @valorMax numeric(10,2);
+  set @valorMax = @salarioMin + ((@i+1) * @tamIntervalo);
+
+insert into #Histograma (valorMinimo, valorMaximo, total) select @valorMin, @valorMax, count(*) from instructor where salary >= @valorMin and salary < @valorMax;
+
+set @i = @i + 1;
+end;
+
+update #Histograma set total = total + (select count(*) from instructor where salary = @salarioMax) where valorMaximo = @salarioMax;
+
 end;
