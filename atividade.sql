@@ -30,4 +30,6 @@ end
 
 update #Histograma set total = total + (select count(*) from instructor where salary = @salarioMax) where valorMaximo = @salarioMax;
 
+select * from #Histograma;
+
 end
