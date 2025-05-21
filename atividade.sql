@@ -26,8 +26,8 @@ begin
 insert into #Histograma (valorMinimo, valorMaximo, total) select @valorMin, @valorMax, count(*) from instructor where salary >= @valorMin and salary < @valorMax;
 
 set @i = @i + 1;
-end;
+end
 
 update #Histograma set total = total + (select count(*) from instructor where salary = @salarioMax) where valorMaximo = @salarioMax;
 
-end;
+end
